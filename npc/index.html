@@ -1,280 +1,321 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Perfil NPC | CHATTER MOD</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perfil NPC | CHATTER MOD</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-    body {
-      background: #101510;
-      color: #ffffff;
-      font-family: Arial, sans-serif;
-      min-height: 100vh;
-    }
+body {
+  background: #101510;
+  color: white;
+  font-family: Arial, sans-serif;
+}
 
-    header {
-      background: #141c15;
-      padding: 22px;
-      border-bottom: 1px solid #293629;
-      text-align: center;
-    }
+header {
+  background: #141c15;
+  padding: 22px;
+  text-align: center;
+  border-bottom: 1px solid #304331;
+}
 
-    header a {
-      color: #a6df76;
-      text-decoration: none;
-      font-size: 14px;
-    }
+.logo {
+  color: #a6df76;
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
 
-    .logo {
-      color: #a6df76;
-      font-size: 25px;
-      font-weight: bold;
-      margin-bottom: 12px;
-    }
+header a {
+  color: #a6df76;
+  text-decoration: none;
+}
 
-    .container {
-      width: 90%;
-      max-width: 1100px;
-      margin: 35px auto;
-    }
+.container {
+  max-width: 1100px;
+  width: 92%;
+  margin: 35px auto;
+}
 
-    .profile {
-      display: grid;
-      grid-template-columns: 1fr 1.4fr;
-      gap: 25px;
-    }
+.profile {
+  display: grid;
+  grid-template-columns: 0.9fr 1.3fr;
+  gap: 22px;
+}
 
-    .card {
-      background: #1b251c;
-      border: 1px solid #304331;
-      border-radius: 14px;
-      padding: 25px;
-      margin-bottom: 22px;
-    }
+.card {
+  background: #1b251c;
+  border: 1px solid #304331;
+  border-radius: 14px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
 
-    .skin {
-      min-height: 350px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
+.skin {
+  text-align: center;
+}
 
-    .skin img {
-      width: 220px;
-      max-width: 100%;
-      image-rendering: pixelated;
-    }
+.skin img {
+  width: 230px;
+  max-width: 100%;
+  image-rendering: pixelated;
+  margin-bottom: 15px;
+}
 
-    h1 {
-      color: #a6df76;
-      font-size: 28px;
-      margin-bottom: 8px;
-    }
+h1 {
+  color: #a6df76;
+  font-size: 28px;
+}
 
-    h2 {
-      color: #a6df76;
-      font-size: 19px;
-      margin-bottom: 18px;
-    }
+h2 {
+  color: #a6df76;
+  font-size: 19px;
+  margin-bottom: 20px;
+}
 
-    .owner {
-      color: #b5c5b5;
-      margin-top: 5px;
-      font-size: 14px;
-    }
+.owner {
+  color: #aebcae;
+  font-size: 14px;
+  margin-top: 8px;
+}
 
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
 
-    .stat {
-      background: #263327;
-      padding: 17px;
-      border-radius: 10px;
-    }
+.stat {
+  background: #263327;
+  border-radius: 10px;
+  padding: 17px;
+}
 
-    .stat span {
-      display: block;
-      color: #a6df76;
-      font-size: 13px;
-      margin-bottom: 8px;
-    }
+.stat span {
+  display: block;
+  color: #a6df76;
+  font-size: 13px;
+  margin-bottom: 9px;
+}
 
-    .stat strong {
-      font-size: 22px;
-    }
+.stat strong {
+  font-size: 23px;
+}
 
-    .progress {
-      height: 12px;
-      background: #101510;
-      border-radius: 20px;
-      overflow: hidden;
-      margin-top: 12px;
-    }
+.progress {
+  height: 12px;
+  background: #101510;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 12px;
+}
 
-    .progress div {
-      width: 65%;
-      height: 100%;
-      background: #a6df76;
-    }
+.progress div {
+  width: 65%;
+  height: 100%;
+  background: #a6df76;
+}
 
-    .equipment {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-    }
+.equipment {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
 
-    .slot {
-      aspect-ratio: 1;
-      background: #263327;
-      border: 1px solid #405440;
-      border-radius: 9px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #849384;
-      font-size: 12px;
-      text-align: center;
-    }
+.slot {
+  background: #263327;
+  border: 1px solid #405440;
+  border-radius: 10px;
+  min-height: 95px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 9px;
+  color: #aebcae;
+  font-size: 12px;
+  text-align: center;
+}
 
-    .private {
-      text-align: center;
-      border-style: dashed;
-    }
+.slot .item {
+  font-size: 28px;
+}
 
-    .private p {
-      color: #b5c5b5;
-      line-height: 1.6;
-      margin-bottom: 15px;
-    }
+.private {
+  border-style: dashed;
+}
 
-    .private button {
-      background: #a6df76;
-      color: #101510;
-      border: none;
-      padding: 12px 22px;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.private p {
+  color: #aebcae;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
 
-    footer {
-      text-align: center;
-      color: #718071;
-      padding: 30px;
-      font-size: 13px;
-    }
+.private button {
+  background: #a6df76;
+  color: #101510;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 18px;
+  font-weight: bold;
+  cursor: not-allowed;
+  opacity: 0.8;
+}
 
-    @media (max-width: 750px) {
-      .profile {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+.private-note {
+  color: #a6df76;
+  font-size: 12px;
+  margin-top: 12px;
+}
+
+footer {
+  text-align: center;
+  color: #718071;
+  padding: 30px;
+  font-size: 13px;
+}
+
+@media(max-width: 750px) {
+  .profile {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <header>
-    <div class="logo">BENJALEANN</div>
-    <a href="../index.html">← Volver al servidor</a>
-  </header>
+<header>
+  <div class="logo">BENJALEANN</div>
+  <a href="../index.html">← Volver al servidor</a>
+</header>
 
-  <main class="container">
+<main class="container">
 
-    <div class="profile">
+<div class="profile">
 
-      <section>
-        <div class="card skin">
-          <img
-            src="https://mc-heads.net/body/Notch/220"
-            alt="Skin de Minecraft de ejemplo"
-          >
-          <h1>Notch</h1>
-          <p class="owner">Propietario: @UsuarioKick</p>
-        </div>
+<section>
 
-        <div class="card">
-          <h2>Equipamiento</h2>
-          <div class="equipment">
-            <div class="slot">Casco</div>
-            <div class="slot">Pechera</div>
-            <div class="slot">Pantalones</div>
-            <div class="slot">Botas</div>
-            <div class="slot">Mano secundaria</div>
-            <div class="slot">Arma</div>
-          </div>
-        </div>
-      </section>
+  <div class="card skin">
+    <img src="https://mc-heads.net/body/Notch/230"
+         alt="Skin 3D de Minecraft">
+    <h1>Notch</h1>
+    <p class="owner">Propietario: @UsuarioKick</p>
+  </div>
 
-      <section>
+  <div class="card">
+    <h2>⚔️ Equipamiento público</h2>
 
-        <div class="card">
-          <h2>Estadísticas del NPC</h2>
+    <div class="equipment">
 
-          <div class="stats">
-            <div class="stat">
-              <span>NIVEL</span>
-              <strong>12</strong>
-            </div>
+      <div class="slot">
+        <span class="item">🪖</span>
+        Casco
+      </div>
 
-            <div class="stat">
-              <span>KILLS</span>
-              <strong>3</strong>
-            </div>
+      <div class="slot">
+        <span class="item">🛡️</span>
+        Pechera
+      </div>
 
-            <div class="stat">
-              <span>CORAZONES</span>
-              <strong>10 / 20</strong>
-            </div>
+      <div class="slot">
+        <span class="item">👖</span>
+        Pantalones
+      </div>
 
-            <div class="stat">
-              <span>EXPERIENCIA</span>
-              <strong>850 XP</strong>
-            </div>
-          </div>
+      <div class="slot">
+        <span class="item">🥾</span>
+        Botas
+      </div>
 
-          <p style="margin-top:22px;">Experiencia para el siguiente nivel</p>
-          <div class="progress">
-            <div></div>
-          </div>
-        </div>
+      <div class="slot">
+        <span class="item">⚔️</span>
+        Mano principal
+      </div>
 
-        <div class="card">
-          <h2>Información del NPC</h2>
-          <p class="owner">Estado: Perfil de demostración</p>
-          <p class="owner">Creación: Pendiente de sincronización</p>
-        </div>
+      <div class="slot">
+        <span class="item">🛡️</span>
+        Mano secundaria
+      </div>
 
-        <div class="card private">
-          <h2>Área privada del propietario</h2>
-          <p>
-            El inventario y el saldo de Chatter Coins
-            solamente estarán disponibles para el dueño
-            del NPC después de iniciar sesión.
-          </p>
-          <button disabled>Acceso privado próximamente</button>
-        </div>
+    </div>
+  </div>
 
-      </section>
+</section>
+
+<section>
+
+  <div class="card">
+    <h2>📊 Estadísticas del NPC</h2>
+
+    <div class="stats">
+
+      <div class="stat">
+        <span>🏆 NIVEL</span>
+        <strong>12</strong>
+      </div>
+
+      <div class="stat">
+        <span>⚔️ KILLS</span>
+        <strong>3</strong>
+      </div>
+
+      <div class="stat">
+        <span>❤️ CORAZONES</span>
+        <strong>10</strong>
+      </div>
+
+      <div class="stat">
+        <span>✨ EXPERIENCIA</span>
+        <strong>850 XP</strong>
+      </div>
 
     </div>
 
-  </main>
+    <p style="margin-top:22px;">Experiencia para el siguiente nivel</p>
 
-  <footer>
-    BENJALEANN · CHATTER MOD
-  </footer>
+    <div class="progress">
+      <div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>👤 Información del NPC</h2>
+    <p class="owner">Estado: Perfil de demostración</p>
+    <p class="owner">Creación: Pendiente de sincronización</p>
+  </div>
+
+  <div class="card private">
+    <h2>🔒 Área privada del propietario</h2>
+
+    <p>
+      El inventario completo y el saldo de Chatter Coins
+      solamente podrán ser consultados por el propietario
+      del NPC.
+    </p>
+
+    <button disabled>Acceso privado próximamente</button>
+
+    <div class="private-note">
+      Acceso mediante cuenta vinculada a Kick.
+    </div>
+  </div>
+
+</section>
+
+</div>
+</main>
+
+<footer>
+  BENJALEANN · CHATTER MOD
+</footer>
 
 </body>
 </html>
