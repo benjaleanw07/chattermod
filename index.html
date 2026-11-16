@@ -4,13 +4,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CHATTER MOD | Tu NPC, tu historia</title>
+  <title>BENJALEANN | Server del Chat</title>
 
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
@@ -23,79 +27,68 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 24px 8%;
-      border-bottom: 1px solid #29352a;
+      padding: 22px 8%;
+      background: #141c15;
+      border-bottom: 1px solid #344535;
     }
 
     .logo {
-      font-size: 25px;
+      font-size: 24px;
       font-weight: 900;
+      color: #a6df76;
       letter-spacing: 2px;
-      color: #9bd36a;
+    }
+
+    nav {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
     }
 
     nav a {
       color: #ddd;
       text-decoration: none;
-      margin-left: 24px;
+      font-size: 14px;
+    }
+
+    nav a:hover {
+      color: #a6df76;
     }
 
     .hero {
-      min-height: 75vh;
+      min-height: 65vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
       padding: 60px 20px;
-      background: radial-gradient(ellipse, #263b25, #101510 70%);
+      background: radial-gradient(ellipse, #29432a, #101510 72%);
     }
 
-    .tag {
-      color: #a6df76;
-      letter-spacing: 3px;
-      font-size: 12px;
-      margin-bottom: 25px;
-    }
-
-    h1 {
-      font-size: clamp(42px, 8vw, 82px);
+    .hero h1 {
+      font-size: clamp(42px, 8vw, 76px);
       font-weight: 900;
-      margin-bottom: 20px;
+      line-height: 1.2;
     }
 
-    h1 span {
-      color: #9bd36a;
+    .hero h1 span {
+      color: #a6df76;
     }
 
-    .hero p {
-      max-width: 600px;
-      color: #b8c0b3;
-      line-height: 1.7;
-      font-size: 17px;
+    .hero h2 {
+      margin-top: 24px;
+      font-size: 20px;
+      letter-spacing: 3px;
+      color: #dce8d5;
     }
 
-    .button {
-      display: inline-block;
-      margin-top: 35px;
-      padding: 16px 30px;
-      background: #8bc65b;
-      color: #101510;
-      font-weight: bold;
-      text-decoration: none;
-      border-radius: 6px;
-    }
-
-    .button:hover {
-      background: #a6e47a;
-    }
-
-    .features {
-      padding: 65px 8%;
+    .section {
+      padding: 70px 8%;
       text-align: center;
     }
 
-    .features h2 {
+    .section h2 {
       font-size: 32px;
       margin-bottom: 35px;
     }
@@ -111,16 +104,59 @@
       border: 1px solid #344535;
       padding: 30px;
       border-radius: 10px;
+      text-align: left;
     }
 
     .card h3 {
       color: #a6df76;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
+      font-size: 21px;
     }
 
     .card p {
-      color: #b8c0b3;
+      color: #bdc8b8;
       line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .price {
+      color: #a6df76;
+      font-weight: bold;
+      margin-top: 18px;
+    }
+
+    .notice {
+      margin-top: 30px;
+      padding: 22px;
+      background: #202b20;
+      border: 1px solid #60794d;
+      border-radius: 8px;
+      color: #dce8d5;
+      line-height: 1.7;
+    }
+
+    .coins {
+      background: #172318;
+      border-top: 1px solid #344535;
+      border-bottom: 1px solid #344535;
+    }
+
+    .coin-number {
+      font-size: 38px;
+      color: #a6df76;
+      font-weight: bold;
+      margin: 18px 0;
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 14px 25px;
+      background: #8bc65b;
+      color: #101510;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 6px;
     }
 
     footer {
@@ -129,60 +165,101 @@
       color: #778174;
       border-top: 1px solid #29352a;
     }
+
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      nav {
+        justify-content: center;
+        gap: 14px;
+      }
+    }
   </style>
 </head>
 
 <body>
 
   <header>
-    <div class="logo">CHATTER MOD</div>
+    <div class="logo">BENJALEANN</div>
+
     <nav>
-      <a href="#inicio">Inicio</a>
-      <a href="#funciones">Funciones</a>
+      <a href="#rankings">Rankings</a>
+      <a href="#tienda">Tienda</a>
+      <a href="#coins">Coins</a>
     </nav>
   </header>
 
   <main>
-    <section class="hero" id="inicio">
-      <div class="tag">TU COMUNIDAD · TU MUNDO · TU HISTORIA</div>
 
-      <h1>NO ERES UN VIEWER.<br>
-        ERES PARTE DEL <span>MUNDO.</span>
-      </h1>
-
-      <p>
-        Crea tu propio NPC, construye tu historia y forma parte
-        de un pueblo donde cada miembro de la comunidad
-        puede dejar su huella.
-      </p>
-
-      <a href="#funciones" class="button">DESCUBRIR CHATTER MOD</a>
+    <section class="hero">
+      <h1>EL SERVER DEL CHAT</h1>
+      <h1><span>DE BENJALEANN</span></h1>
+      <h2>BIENVENIDO AL SERVIDOR</h2>
     </section>
 
-    <section class="features" id="funciones">
-      <h2>¿QUÉ PUEDES HACER?</h2>
+    <section class="section" id="rankings">
+      <h2>RANKINGS</h2>
 
       <div class="cards">
         <article class="card">
-          <h3>Tu propio NPC</h3>
-          <p>Crea tu personaje y conviértete en habitante permanente del pueblo.</p>
+          <h3>⚔ Ranking de Kills</h3>
+          <p>Clasificación de los NPCs con más eliminaciones.</p>
+          <p>Los resultados aparecerán cuando el servidor esté conectado.</p>
         </article>
 
         <article class="card">
-          <h3>CHATTER COINS</h3>
-          <p>Acumula monedas y consigue equipamiento para tu personaje.</p>
-        </article>
-
-        <article class="card">
-          <h3>Rankings</h3>
-          <p>Compite por conseguir un lugar entre los mejores NPCs.</p>
+          <h3>🏆 Ranking de Nivel</h3>
+          <p>Clasificación de los NPCs con mayor nivel.</p>
+          <p>Los resultados aparecerán cuando el servidor esté conectado.</p>
         </article>
       </div>
     </section>
+
+    <section class="section" id="tienda">
+      <h2>TIENDA</h2>
+
+      <div class="cards">
+        <article class="card">
+          <h3>Armas y armaduras</h3>
+          <p>Equipamiento para tu NPC.</p>
+          <p>Consulta las opciones disponibles y sus precios.</p>
+          <div class="price">Precios próximamente</div>
+        </article>
+
+        <article class="card">
+          <h3>Aumento de corazones</h3>
+          <p>Mejora la capacidad máxima de vida de tu NPC.</p>
+          <p>Paquete pequeño: +1 corazón.</p>
+          <p>Paquete mediano: +5 corazones.</p>
+          <p>Paquete grande: +10 corazones.</p>
+          <p>Máximo permitido: 50 corazones.</p>
+          <div class="price">Precios próximamente</div>
+        </article>
+      </div>
+
+      <div class="notice">
+        Para crear tu NPC y comprar artículos necesitas tener rango
+        VIP, MOD o SUB en el canal de Benjaleann.
+      </div>
+    </section>
+
+    <section class="section coins" id="coins">
+      <h2>CHATTER COINS</h2>
+
+      <p>Tu saldo personal de monedas estará disponible al iniciar sesión.</p>
+
+      <div class="coin-number">🪙 COINS</div>
+
+      <p>Acumula monedas y úsalas en la tienda del servidor.</p>
+    </section>
+
   </main>
 
   <footer>
-    CHATTER MOD © 2026 · Un mundo creado por la comunidad.
+    BENJALEANN · SERVER DEL CHAT
   </footer>
 
 </body>
