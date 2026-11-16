@@ -132,20 +132,20 @@ h2 {
 .slot {
   background: #263327;
   border: 1px solid #405440;
-  border-radius: 10px;
-  min-height: 95px;
+  border-radius: 8px;
+  min-height: 90px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 9px;
+  gap: 8px;
   color: #aebcae;
   font-size: 12px;
   text-align: center;
 }
 
-.slot .item {
-  font-size: 28px;
+.item {
+  font-size: 27px;
 }
 
 .private {
@@ -155,24 +155,135 @@ h2 {
 .private p {
   color: #aebcae;
   line-height: 1.6;
-  margin-bottom: 16px;
+  margin-bottom: 15px;
 }
 
-.private button {
-  background: #a6df76;
-  color: #101510;
-  border: none;
-  border-radius: 8px;
-  padding: 12px 18px;
+.coins {
+  background: #263327;
+  border-radius: 10px;
+  padding: 18px;
+  margin-bottom: 22px;
+}
+
+.coins span {
+  color: #a6df76;
+  font-size: 13px;
+}
+
+.coins strong {
+  display: block;
+  font-size: 25px;
+  margin-top: 8px;
+}
+
+/* INVENTARIO MINECRAFT */
+
+.inventory-window {
+  background: #c6c6c6;
+  border: 4px solid #373737;
+  padding: 16px;
+  color: #242424;
+  box-shadow: inset 3px 3px #ffffff, inset -3px -3px #555555;
+}
+
+.inventory-title {
+  font-size: 14px;
   font-weight: bold;
-  cursor: not-allowed;
-  opacity: 0.8;
+  margin-bottom: 12px;
+}
+
+.inventory-top {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.armor-slots {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.inventory-slot {
+  width: 42px;
+  height: 42px;
+  background: #8b8b8b;
+  border: 3px solid;
+  border-color: #373737 #ffffff #ffffff #373737;
+  box-shadow: inset 2px 2px #555555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 21px;
+  position: relative;
+}
+
+.inventory-slot small {
+  font-size: 9px;
+  position: absolute;
+  bottom: 1px;
+  right: 3px;
+  color: white;
+  text-shadow: 1px 1px #222;
+}
+
+.player-preview {
+  min-height: 180px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #b5b5b5;
+  border: 2px inset #777;
+}
+
+.player-preview img {
+  height: 160px;
+  image-rendering: pixelated;
+}
+
+.inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  gap: 4px;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.inventory-grid .inventory-slot {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  min-width: 0;
+  font-size: clamp(12px, 2.4vw, 21px);
+}
+
+.hotbar {
+  border-top: 2px solid #777;
+  padding-top: 14px;
+}
+
+.inventory-caption {
+  font-size: 12px;
+  font-weight: bold;
+  margin: 12px 0 8px;
 }
 
 .private-note {
   color: #a6df76;
   font-size: 12px;
-  margin-top: 12px;
+  margin-top: 15px;
+}
+
+.locked {
+  background: #a6df76;
+  color: #101510;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: not-allowed;
+  opacity: .8;
 }
 
 footer {
@@ -185,6 +296,21 @@ footer {
 @media(max-width: 750px) {
   .profile {
     grid-template-columns: 1fr;
+  }
+}
+
+@media(max-width: 380px) {
+  .inventory-window {
+    padding: 9px;
+  }
+
+  .inventory-top {
+    gap: 8px;
+  }
+
+  .inventory-slot {
+    width: 34px;
+    height: 34px;
   }
 }
 </style>
@@ -214,7 +340,6 @@ footer {
     <h2>⚔️ Equipamiento público</h2>
 
     <div class="equipment">
-
       <div class="slot">
         <span class="item">🪖</span>
         Casco
@@ -244,7 +369,6 @@ footer {
         <span class="item">🛡️</span>
         Mano secundaria
       </div>
-
     </div>
   </div>
 
@@ -256,7 +380,6 @@ footer {
     <h2>📊 Estadísticas del NPC</h2>
 
     <div class="stats">
-
       <div class="stat">
         <span>🏆 NIVEL</span>
         <strong>12</strong>
@@ -276,11 +399,9 @@ footer {
         <span>✨ EXPERIENCIA</span>
         <strong>850 XP</strong>
       </div>
-
     </div>
 
     <p style="margin-top:22px;">Experiencia para el siguiente nivel</p>
-
     <div class="progress">
       <div></div>
     </div>
@@ -293,19 +414,97 @@ footer {
   </div>
 
   <div class="card private">
-    <h2>🔒 Área privada del propietario</h2>
+    <h2>🔒 Inventario privado</h2>
 
     <p>
-      El inventario completo y el saldo de Chatter Coins
-      solamente podrán ser consultados por el propietario
-      del NPC.
+      Esta sección será visible únicamente para el propietario
+      después de iniciar sesión y validar su cuenta.
     </p>
 
-    <button disabled>Acceso privado próximamente</button>
+    <div class="coins">
+      <span>🪙 CHATTER COINS</span>
+      <strong>1.000</strong>
+    </div>
+
+    <div class="inventory-window">
+
+      <div class="inventory-title">Inventario</div>
+
+      <div class="inventory-top">
+
+        <div class="armor-slots">
+          <div class="inventory-slot">🪖</div>
+          <div class="inventory-slot">🛡️</div>
+          <div class="inventory-slot">👖</div>
+          <div class="inventory-slot">🥾</div>
+          <div class="inventory-slot">🛡️</div>
+        </div>
+
+        <div class="player-preview">
+          <img src="https://mc-heads.net/body/Notch/160"
+               alt="Vista del personaje">
+        </div>
+
+      </div>
+
+      <div class="inventory-caption">Inventario principal</div>
+
+      <div class="inventory-grid">
+        <div class="inventory-slot"> </div>
+        <div class="inventory-slot"> </div>
+        <div class="inventory-slot"> </div>
+        <div class="inventory-slot"> </div>
+        <div class="inventory-slot"> </div>
+        <div class="inventory-slot"> </div>
+        <div class="inventory-slot"> </div>
+        <div class="inventory-slot"> </div>
+        <div class="inventory-slot"> </div>
+
+        <div class="inventory-slot"> </div>
+        <div class="inventory-slot"> </div>
+        <div class="inventory-slot"> </div>
+        <div class="inventory-slot"> </div>
+        <div class="inventory-slot"> </div>
+        <div class="inventory-slot"> </div>
+        <div class="inventory-slot"> </div>
+        <div class="inventory-slot"> </div>
+        <div class="inventory-slot"> </div>
+
+        <div class="inventory-slot"> </div>
+        <div class="inventory-slot"> </div>
+        <div class="inventory-slot"> </div>
+        <div class="inventory-slot"> </div>
+        <div class="inventory-slot"> </div>
+        <div class="inventory-slot"> </div>
+        <div class="inventory-slot"> </div>
+        <div class="inventory-slot"> </div>
+        <div class="inventory-slot"> </div>
+      </div>
+
+      <div class="inventory-caption">Barra rápida</div>
+
+      <div class="inventory-grid hotbar">
+        <div class="inventory-slot"> </div>
+        <div class="inventory-slot"> </div>
+        <div class="inventory-slot"> </div>
+        <div class="inventory-slot"> </div>
+        <div class="inventory-slot"> </div>
+        <div class="inventory-slot"> </div>
+        <div class="inventory-slot"> </div>
+        <div class="inventory-slot"> </div>
+        <div class="inventory-slot"> </div>
+      </div>
+
+    </div>
 
     <div class="private-note">
-      Acceso mediante cuenta vinculada a Kick.
+      Vista de demostración. Los datos reales se conectarán al servidor.
     </div>
+
+    <button class="locked" disabled>
+      Acceso privado próximamente
+    </button>
+
   </div>
 
 </section>
