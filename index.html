@@ -7,176 +7,40 @@
   <title>BENJALEANN | Server del Chat</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+  
+:root {
+  --fondo: #102B52;
+  --secciones: #174477;
+  --tarjetas: #65CFFF;
+  --detalles: #B8E9FF;
+  --blanco: #FFFFFF;
+}
 
-    html {
-      scroll-behavior: smooth;
-    }
+body {
+  background-color: var(--fondo);
+  color: var(--blanco);
+}
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #101510;
-      color: #f2f2e9;
-    }
+header, nav, footer {
+  background-color: var(--secciones);
+  color: var(--blanco);
+}
 
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 22px 8%;
-      background: #141c15;
-      border-bottom: 1px solid #344535;
-    }
+.card, .ranking-card, .shop-card, .coin-card,
+section .box, .item {
+  background-color: var(--tarjetas);
+  color: var(--blanco);
+}
 
-    .logo {
-      font-size: 24px;
-      font-weight: 900;
-      color: #a6df76;
-      letter-spacing: 2px;
-    }
+button, .btn {
+  background-color: var(--detalles);
+  color: var(--fondo);
+  border: none;
+}
 
-    nav {
-      display: flex;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
-
-    nav a {
-      color: #ddd;
-      text-decoration: none;
-      font-size: 14px;
-    }
-
-    nav a:hover {
-      color: #a6df76;
-    }
-
-    .hero {
-      min-height: 65vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 60px 20px;
-      background: radial-gradient(ellipse, #29432a, #101510 72%);
-    }
-
-    .hero h1 {
-      font-size: clamp(42px, 8vw, 76px);
-      font-weight: 900;
-      line-height: 1.2;
-    }
-
-    .hero h1 span {
-      color: #a6df76;
-    }
-
-    .hero h2 {
-      margin-top: 24px;
-      font-size: 20px;
-      letter-spacing: 3px;
-      color: #dce8d5;
-    }
-
-    .section {
-      padding: 70px 8%;
-      text-align: center;
-    }
-
-    .section h2 {
-      font-size: 32px;
-      margin-bottom: 35px;
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-    }
-
-    .card {
-      background: #1b251c;
-      border: 1px solid #344535;
-      padding: 30px;
-      border-radius: 10px;
-      text-align: left;
-    }
-
-    .card h3 {
-      color: #a6df76;
-      margin-bottom: 14px;
-      font-size: 21px;
-    }
-
-    .card p {
-      color: #bdc8b8;
-      line-height: 1.6;
-      margin-bottom: 12px;
-    }
-
-    .price {
-      color: #a6df76;
-      font-weight: bold;
-      margin-top: 18px;
-    }
-
-    .notice {
-      margin-top: 30px;
-      padding: 22px;
-      background: #202b20;
-      border: 1px solid #60794d;
-      border-radius: 8px;
-      color: #dce8d5;
-      line-height: 1.7;
-    }
-
-    .coins {
-      background: #172318;
-      border-top: 1px solid #344535;
-      border-bottom: 1px solid #344535;
-    }
-
-    .coin-number {
-      font-size: 38px;
-      color: #a6df76;
-      font-weight: bold;
-      margin: 18px 0;
-    }
-
-    .button {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 14px 25px;
-      background: #8bc65b;
-      color: #101510;
-      font-weight: bold;
-      text-decoration: none;
-      border-radius: 6px;
-    }
-
-    footer {
-      padding: 25px;
-      text-align: center;
-      color: #778174;
-      border-top: 1px solid #29352a;
-    }
-
-    @media (max-width: 600px) {
-      header {
-        flex-direction: column;
-        gap: 18px;
-      }
-
-      nav {
-        justify-content: center;
-        gap: 14px;
-      }
-    }
+h1, h2, h3, p, span, a, label {
+  color: inherit;
+}
   </style>
 </head>
 
