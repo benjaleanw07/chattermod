@@ -118,9 +118,10 @@ h2 {
 }
 
 .progress div {
-  width: 65%;
+  width: 0%;
   height: 100%;
   background: #a6df76;
+  transition: width .3s;
 }
 
 .equipment {
@@ -181,6 +182,20 @@ h2 {
   margin-top: 15px;
 }
 
+.message {
+  background: #1b251c;
+  border: 1px solid #304331;
+  border-radius: 14px;
+  padding: 30px;
+  text-align: center;
+  color: #aebcae;
+  line-height: 1.6;
+}
+
+.message h2 {
+  margin-bottom: 12px;
+}
+
 footer {
   text-align: center;
   color: #718071;
@@ -199,154 +214,187 @@ footer {
 <body>
 
 <header>
-  <div class="logo">BENJALEANN</div>
+  <div class="logo">CHATTER MOD</div>
   <a href="../index.html">← Volver al servidor</a>
 </header>
 
 <main class="container">
 
-<div class="profile">
-
-<section>
-
-  <div class="card skin">
-    <img src="https://mc-heads.net/body/Notch/230"
-         alt="Skin 3D de Minecraft">
-    <h1>Notch</h1>
-    <p class="owner">Propietario: @UsuarioKick</p>
+  <div id="loading" class="message">
+    Cargando perfil del NPC...
   </div>
 
-  <div class="card">
-    <h2>⚔️ Equipamiento público</h2>
-
-    <div class="equipment">
-      <div class="slot">
-        <span class="item">🪖</span>
-        Casco
-      </div>
-
-      <div class="slot">
-        <span class="item">🛡️</span>
-        Pechera
-      </div>
-
-      <div class="slot">
-        <span class="item">👖</span>
-        Pantalones
-      </div>
-
-      <div class="slot">
-        <span class="item">🥾</span>
-        Botas
-      </div>
-
-      <div class="slot">
-        <span class="item">⚔️</span>
-        Mano principal
-      </div>
-
-      <div class="slot">
-        <span class="item">🛡️</span>
-        Mano secundaria
-      </div>
-    </div>
+  <div id="error" class="message" hidden>
+    <h2>NPC no encontrado</h2>
+    No pudimos encontrar este perfil.
   </div>
 
-</section>
+  <div class="profile" id="profile" hidden>
 
-<section>
+    <section>
 
-  <div class="card">
-    <h2>📊 Estadísticas del NPC</h2>
-
-    <div class="stats">
-      <div class="stat">
-        <span>🏆 NIVEL</span>
-        <strong>12</strong>
+      <div class="card skin">
+        <img id="skinImage"
+             src=""
+             alt="Skin 3D de Minecraft">
+        <h1 id="npcName">NPC</h1>
+        <p class="owner" id="ownerName">Propietario: Información no disponible</p>
       </div>
 
-      <div class="stat">
-        <span>⚔️ KILLS</span>
-        <strong>3</strong>
+      <div class="card">
+        <h2>⚔️ Equipamiento público</h2>
+
+        <div class="equipment">
+          <div class="slot"><span class="item">🪖</span>Casco</div>
+          <div class="slot"><span class="item">🛡️</span>Pechera</div>
+          <div class="slot"><span class="item">👖</span>Pantalones</div>
+          <div class="slot"><span class="item">🥾</span>Botas</div>
+          <div class="slot"><span class="item">⚔️</span>Mano principal</div>
+          <div class="slot"><span class="item">🛡️</span>Mano secundaria</div>
+        </div>
       </div>
 
-      <div class="stat">
-        <span>❤️ CORAZONES</span>
-        <strong>10</strong>
+    </section>
+
+    <section>
+
+      <div class="card">
+        <h2>📊 Estadísticas del NPC</h2>
+
+        <div class="stats">
+          <div class="stat">
+            <span>🏆 NIVEL</span>
+            <strong id="level">0</strong>
+          </div>
+
+          <div class="stat">
+            <span>⚔️ KILLS</span>
+            <strong id="kills">0</strong>
+          </div>
+
+          <div class="stat">
+            <span>❤️ CORAZONES</span>
+            <strong id="hearts">0</strong>
+          </div>
+
+          <div class="stat">
+            <span>✨ EXPERIENCIA</span>
+            <strong id="experience">0 XP</strong>
+          </div>
+        </div>
+
+        <p style="margin-top:22px;">
+          Experiencia para el siguiente nivel
+        </p>
+
+        <div class="progress">
+          <div id="progressBar"></div>
+        </div>
       </div>
 
-      <div class="stat">
-        <span>✨ EXPERIENCIA</span>
-        <strong>850 XP</strong>
+      <div class="card">
+        <h2>👤 Información del NPC</h2>
+        <p class="owner">Estado: NPC registrado</p>
+        <p class="owner">Minecraft: <span id="minecraftName"></span></p>
       </div>
-    </div>
 
-    <p style="margin-top:22px;">
-      Experiencia para el siguiente nivel
-    </p>
+      <div class="card private">
+        <div class="lock-icon">🔒</div>
 
-    <div class="progress">
-      <div></div>
-    </div>
+        <h2>Área privada del propietario</h2>
+
+        <p>
+          El inventario completo y el saldo de Chatter Coins
+          son información privada del propietario del NPC.
+        </p>
+
+        <button class="locked" disabled>
+          Acceso privado próximamente
+        </button>
+
+        <div class="private-note">
+          Acceso mediante cuenta vinculada a Kick.
+        </div>
+      </div>
+
+    </section>
+
   </div>
 
-  <div class="card">
-    <h2>👤 Información del NPC</h2>
-    <p class="owner">Estado: Perfil de demostración</p>
-    <p class="owner">Creación: Pendiente de sincronización</p>
-  </div>
-
-  <div class="card private">
-    <div class="lock-icon">🔒</div>
-
-    <h2>Área privada del propietario</h2>
-
-    <p>
-      El inventario completo y el saldo de Chatter Coins
-      son información privada del propietario del NPC.
-    </p>
-
-    <button class="locked" disabled>
-      Acceso privado próximamente
-    </button>
-
-    <div class="private-note">
-      Acceso mediante cuenta vinculada a Kick.
-    </div>
-  </div>
-
-</section>
-
-</div>
 </main>
 
 <footer>
-  BENJALEANN · CHATTER MOD
+  CHATTER MOD
 </footer>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-  const SUPABASE_URL = "https://wbyzgjonvhrvgxkhqcln.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_ixUtZdRvO_d0qi7x-hXcJg_98xyxNPd";
+const SUPABASE_URL = "https://wbyzgjonvhrvgxkhqcln.supabase.co";
+const SUPABASE_KEY = "sb_publishable_ixUtZdRvO_d0qi7x-hXcJg_98xyxNPd";
 
-  const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
-  console.log("CHATTER MOD: Supabase conectado correctamente.");
-    async function probarBaseDeDatos() {
-    const { data, error } = await supabaseClient
-  .rpc("get_public_npc_profiles");
+async function cargarNPC() {
+  const params = new URLSearchParams(window.location.search);
+  const username = params.get("username");
 
-    if (error) {
-      console.error("ERROR DE BASE DE DATOS:", error.message);
-    } else {
-      console.log("BASE DE DATOS FUNCIONANDO:", data);
-    }
+  const loading = document.getElementById("loading");
+  const errorBox = document.getElementById("error");
+  const profile = document.getElementById("profile");
+
+  if (!username || !/^[A-Za-z0-9_]{3,16}$/.test(username)) {
+    loading.hidden = true;
+    errorBox.hidden = false;
+    return;
   }
 
-  probarBaseDeDatos();
+  try {
+    const { data, error } = await supabaseClient
+      .rpc("get_public_npc_profiles");
+
+    if (error) throw error;
+
+    const npc = data?.find(
+      item => item.minecraft_username?.toLowerCase() === username.toLowerCase()
+    );
+
+    if (!npc) {
+      loading.hidden = true;
+      errorBox.hidden = false;
+      return;
+    }
+
+    document.getElementById("npcName").textContent = npc.minecraft_username;
+    document.getElementById("minecraftName").textContent = npc.minecraft_username;
+    document.getElementById("skinImage").src =
+      "https://mc-heads.net/body/" + encodeURIComponent(npc.minecraft_username) + "/230";
+
+    document.getElementById("level").textContent = npc.level ?? 1;
+    document.getElementById("kills").textContent = npc.kills ?? 0;
+    document.getElementById("hearts").textContent = npc.hearts ?? 10;
+    document.getElementById("experience").textContent =
+      (npc.experience ?? 0) + " XP";
+
+    const experience = Number(npc.experience ?? 0);
+    const progress = Math.max(0, Math.min(100, (experience / 1000) * 100));
+
+    document.getElementById("progressBar").style.width = progress + "%";
+
+    loading.hidden = true;
+    profile.hidden = false;
+
+  } catch (err) {
+    console.error("Error cargando NPC:", err);
+    loading.textContent = "No se pudo cargar el perfil. Inténtalo más tarde.";
+  }
+}
+
+cargarNPC();
 </script>
+
 </body>
 </html>
