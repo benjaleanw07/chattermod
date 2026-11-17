@@ -7,260 +7,301 @@
   <title>BENJALEANN | Server del Chat</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      background: #101510;
-      color: #f2f2e9;
-    }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body { font-family:Arial,sans-serif; background:#101510; color:#f2f2e9; }
 
     header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 22px 8%;
-      background: #141c15;
-      border-bottom: 1px solid #344535;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:22px 8%;
+      background:#141c15;
+      border-bottom:1px solid #344535;
+      gap:20px;
+      flex-wrap:wrap;
     }
 
-    .logo {
-      font-size: 24px;
-      font-weight: 900;
-      color: #a6df76;
-      letter-spacing: 2px;
+    .logo { font-size:24px; font-weight:900; color:#a6df76; letter-spacing:2px; }
+
+    nav { display:flex; gap:24px; flex-wrap:wrap; }
+    nav a { color:#ddd; text-decoration:none; font-size:14px; }
+    nav a:hover { color:#a6df76; }
+
+    .auth-area {
+      display:flex;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
     }
 
-    nav {
-      display: flex;
-      gap: 24px;
-      flex-wrap: wrap;
+    .auth-button {
+      border:none;
+      padding:12px 18px;
+      border-radius:6px;
+      font-weight:bold;
+      cursor:pointer;
+      background:#8bc65b;
+      color:#101510;
     }
 
-    nav a {
-      color: #ddd;
-      text-decoration: none;
-      font-size: 14px;
+    .auth-button:hover { background:#a6df76; }
+
+    .logout-button {
+      background:#29352a;
+      color:#ddd;
+      border:1px solid #60794d;
     }
 
-    nav a:hover {
-      color: #a6df76;
+    #auth-status {
+      color:#bdc8b8;
+      font-size:13px;
     }
 
     .hero {
-      min-height: 65vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 60px 20px;
-      background: radial-gradient(ellipse, #29432a, #101510 72%);
+      min-height:65vh;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      padding:60px 20px;
+      background:radial-gradient(ellipse,#29432a,#101510 72%);
     }
 
-    .hero h1 {
-      font-size: clamp(42px, 8vw, 76px);
-      font-weight: 900;
-      line-height: 1.2;
-    }
+    .hero h1 { font-size:clamp(42px,8vw,76px); font-weight:900; line-height:1.2; }
+    .hero h1 span { color:#a6df76; }
+    .hero h2 { margin-top:24px; font-size:20px; letter-spacing:3px; color:#dce8d5; }
 
-    .hero h1 span {
-      color: #a6df76;
-    }
-
-    .hero h2 {
-      margin-top: 24px;
-      font-size: 20px;
-      letter-spacing: 3px;
-      color: #dce8d5;
-    }
-
-    .section {
-      padding: 70px 8%;
-      text-align: center;
-    }
-
-    .section h2 {
-      font-size: 32px;
-      margin-bottom: 35px;
-    }
+    .section { padding:70px 8%; text-align:center; }
+    .section h2 { font-size:32px; margin-bottom:35px; }
 
     .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:20px;
     }
 
     .card {
-      background: #1b251c;
-      border: 1px solid #344535;
-      padding: 30px;
-      border-radius: 10px;
-      text-align: left;
+      background:#1b251c;
+      border:1px solid #344535;
+      padding:30px;
+      border-radius:10px;
+      text-align:left;
     }
 
-    .card h3 {
-      color: #a6df76;
-      margin-bottom: 14px;
-      font-size: 21px;
-    }
-
-    .card p {
-      color: #bdc8b8;
-      line-height: 1.6;
-      margin-bottom: 12px;
-    }
-
-    .price {
-      color: #a6df76;
-      font-weight: bold;
-      margin-top: 18px;
-    }
+    .card h3 { color:#a6df76; margin-bottom:14px; font-size:21px; }
+    .card p { color:#bdc8b8; line-height:1.6; margin-bottom:12px; }
+    .price { color:#a6df76; font-weight:bold; margin-top:18px; }
 
     .notice {
-      margin-top: 30px;
-      padding: 22px;
-      background: #202b20;
-      border: 1px solid #60794d;
-      border-radius: 8px;
-      color: #dce8d5;
-      line-height: 1.7;
+      margin-top:30px;
+      padding:22px;
+      background:#202b20;
+      border:1px solid #60794d;
+      border-radius:8px;
+      color:#dce8d5;
+      line-height:1.7;
     }
 
     .coins {
-      background: #172318;
-      border-top: 1px solid #344535;
-      border-bottom: 1px solid #344535;
+      background:#172318;
+      border-top:1px solid #344535;
+      border-bottom:1px solid #344535;
     }
 
     .coin-number {
-      font-size: 38px;
-      color: #a6df76;
-      font-weight: bold;
-      margin: 18px 0;
-    }
-
-    .button {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 14px 25px;
-      background: #8bc65b;
-      color: #101510;
-      font-weight: bold;
-      text-decoration: none;
-      border-radius: 6px;
+      font-size:38px;
+      color:#a6df76;
+      font-weight:bold;
+      margin:18px 0;
     }
 
     footer {
-      padding: 25px;
-      text-align: center;
-      color: #778174;
-      border-top: 1px solid #29352a;
+      padding:25px;
+      text-align:center;
+      color:#778174;
+      border-top:1px solid #29352a;
     }
 
-    @media (max-width: 600px) {
-      header {
-        flex-direction: column;
-        gap: 18px;
-      }
-
-      nav {
-        justify-content: center;
-        gap: 14px;
-      }
+    @media(max-width:700px) {
+      header { flex-direction:column; }
+      nav { justify-content:center; gap:14px; }
+      .auth-area { justify-content:center; }
     }
   </style>
 </head>
 
 <body>
 
-  <header>
-    <div class="logo">BENJALEANN</div>
+<header>
+  <div class="logo">BENJALEANN</div>
 
-    <nav>
-      <a href="#rankings">Rankings</a>
-      <a href="#tienda">Tienda</a>
-      <a href="#coins">Coins</a>
-    </nav>
-  </header>
+  <nav>
+    <a href="#rankings">Rankings</a>
+    <a href="#tienda">Tienda</a>
+    <a href="#coins">Coins</a>
+  </nav>
 
-  <main>
+  <div class="auth-area">
+    <span id="auth-status">No has iniciado sesión</span>
+    <button id="login-button" class="auth-button">
+      Iniciar sesión con Kick
+    </button>
+    <button id="logout-button" class="auth-button logout-button" hidden>
+      Cerrar sesión
+    </button>
+  </div>
+</header>
 
-    <section class="hero">
-      <h1>EL SERVER DEL CHAT</h1>
-      <h1><span>DE BENJALEANN</span></h1>
-      <h2>BIENVENIDO AL SERVIDOR</h2>
-    </section>
+<main>
 
-    <section class="section" id="rankings">
-      <h2>RANKINGS</h2>
+  <section class="hero">
+    <h1>EL SERVER DEL CHAT</h1>
+    <h1><span>DE BENJALEANN</span></h1>
+    <h2>BIENVENIDO AL SERVIDOR</h2>
+  </section>
 
-      <div class="cards">
-        <article class="card">
-          <h3>⚔ Ranking de Kills</h3>
-          <p>Clasificación de los NPCs con más eliminaciones.</p>
-          <p>Los resultados aparecerán cuando el servidor esté conectado.</p>
-        </article>
+  <section class="section" id="rankings">
+    <h2>RANKINGS</h2>
 
-        <article class="card">
-          <h3>🏆 Ranking de Nivel</h3>
-          <p>Clasificación de los NPCs con mayor nivel.</p>
-          <p>Los resultados aparecerán cuando el servidor esté conectado.</p>
-        </article>
-      </div>
-    </section>
+    <div class="cards">
+      <article class="card">
+        <h3>⚔ Ranking de Kills</h3>
+        <p>Clasificación de los NPCs con más eliminaciones.</p>
+        <p>Los resultados aparecerán cuando el servidor esté conectado.</p>
+      </article>
 
-    <section class="section" id="tienda">
-      <h2>TIENDA</h2>
+      <article class="card">
+        <h3>🏆 Ranking de Nivel</h3>
+        <p>Clasificación de los NPCs con mayor nivel.</p>
+        <p>Los resultados aparecerán cuando el servidor esté conectado.</p>
+      </article>
+    </div>
+  </section>
 
-      <div class="cards">
-        <article class="card">
-          <h3>Armas y armaduras</h3>
-          <p>Equipamiento para tu NPC.</p>
-          <p>Consulta las opciones disponibles y sus precios.</p>
-          <div class="price">Precios próximamente</div>
-        </article>
+  <section class="section" id="tienda">
+    <h2>TIENDA</h2>
 
-        <article class="card">
-          <h3>Aumento de corazones</h3>
-          <p>Mejora la capacidad máxima de vida de tu NPC.</p>
-          <p>Paquete pequeño: +1 corazón.</p>
-          <p>Paquete mediano: +5 corazones.</p>
-          <p>Paquete grande: +10 corazones.</p>
-          <p>Máximo permitido: 50 corazones.</p>
-          <div class="price">Precios próximamente</div>
-        </article>
-      </div>
+    <div class="cards">
+      <article class="card">
+        <h3>Armas y armaduras</h3>
+        <p>Equipamiento para tu NPC.</p>
+        <p>Consulta las opciones disponibles y sus precios.</p>
+        <div class="price">Precios próximamente</div>
+      </article>
 
-      <div class="notice">
-        Para crear tu NPC y comprar artículos necesitas tener rango
-        VIP, MOD o SUB en el canal de Benjaleann.
-      </div>
-    </section>
+      <article class="card">
+        <h3>Aumento de corazones</h3>
+        <p>Mejora la capacidad máxima de vida de tu NPC.</p>
+        <p>Paquete pequeño: +1 corazón.</p>
+        <p>Paquete mediano: +5 corazones.</p>
+        <p>Paquete grande: +10 corazones.</p>
+        <p>Máximo permitido: 50 corazones.</p>
+        <div class="price">Precios próximamente</div>
+      </article>
+    </div>
 
-    <section class="section coins" id="coins">
-      <h2>CHATTER COINS</h2>
+    <div class="notice">
+      Para crear tu NPC y comprar artículos necesitas tener rango VIP, MOD o SUB en el canal de Benjaleann.
+    </div>
+  </section>
 
-      <p>Tu saldo personal de monedas estará disponible al iniciar sesión.</p>
+  <section class="section coins" id="coins">
+    <h2>CHATTER COINS</h2>
+    <p>Tu saldo personal de monedas estará disponible al iniciar sesión.</p>
+    <div class="coin-number">🪙 COINS</div>
+    <p>Acumula monedas y úsalas en la tienda del servidor.</p>
+  </section>
 
-      <div class="coin-number">🪙 COINS</div>
+</main>
 
-      <p>Acumula monedas y úsalas en la tienda del servidor.</p>
-    </section>
+<footer>BENJALEANN · SERVER DEL CHAT</footer>
 
-  </main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <footer>
-    BENJALEANN · SERVER DEL CHAT
-  </footer>
+<script>
+  const SUPABASE_URL = "https://wbyzgjonvhrvgxkhqcln.supabase.co";
+
+  // Pega aquí tu clave sb_publishable_...
+  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_ixUtZdRvO_d0qi7x-hXcJg_98xyxNPd";
+
+  const { createClient } = window.supabase;
+
+  const supabaseClient = createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY,
+    {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true
+      }
+    }
+  );
+
+  const loginButton = document.getElementById("login-button");
+  const logoutButton = document.getElementById("logout-button");
+  const authStatus = document.getElementById("auth-status");
+
+  const KICK_AUTH_URL =
+    SUPABASE_URL + "/functions/v1/kick-auth-start";
+
+  function updateInterface(user) {
+    if (user) {
+      const kickUsername =
+        user.user_metadata?.kick_username ||
+        user.user_metadata?.name ||
+        "Usuario conectado";
+
+      authStatus.textContent = "Conectado como " + kickUsername;
+      loginButton.hidden = true;
+      logoutButton.hidden = false;
+    } else {
+      authStatus.textContent = "No has iniciado sesión";
+      loginButton.hidden = false;
+      logoutButton.hidden = true;
+    }
+  }
+
+  loginButton.addEventListener("click", () => {
+    window.location.href = KICK_AUTH_URL;
+  });
+
+  logoutButton.addEventListener("click", async () => {
+    logoutButton.disabled = true;
+
+    const { error } = await supabaseClient.auth.signOut();
+
+    logoutButton.disabled = false;
+
+    if (error) {
+      authStatus.textContent = "No se pudo cerrar la sesión";
+      console.error(error);
+      return;
+    }
+
+    updateInterface(null);
+  });
+
+  async function initializeAuth() {
+    const { data, error } = await supabaseClient.auth.getSession();
+
+    if (error) {
+      console.error("Error al comprobar la sesión:", error);
+      authStatus.textContent = "No se pudo comprobar la sesión";
+      return;
+    }
+
+    updateInterface(data.session?.user ?? null);
+  }
+
+  supabaseClient.auth.onAuthStateChange((_event, session) => {
+    updateInterface(session?.user ?? null);
+  });
+
+  initializeAuth();
+</script>
 
 </body>
 </html>
