@@ -337,8 +337,8 @@ footer {
   console.log("CHATTER MOD: Supabase conectado correctamente.");
     async function probarBaseDeDatos() {
     const { data, error } = await supabaseClient
-      .from("npc_stats")
-      .select("level")
+      .from("public_npc_profiles")
+      .select("*")
       .limit(1);
 
     if (error) {
