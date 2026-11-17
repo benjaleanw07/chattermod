@@ -323,6 +323,18 @@ footer {
 <footer>
   BENJALEANN · CHATTER MOD
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<script>
+  const SUPABASE_URL = "https://wbyzgjonvhrvgxkhqcln.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_ixUtZdRvO_d0qi7x-hXcJg_98xyxNPd";
+
+  const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+  console.log("CHATTER MOD: Supabase conectado correctamente.");
+</script>
 </body>
 </html>
