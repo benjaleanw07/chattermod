@@ -335,6 +335,20 @@ footer {
   );
 
   console.log("CHATTER MOD: Supabase conectado correctamente.");
+    async function probarBaseDeDatos() {
+    const { data, error } = await supabaseClient
+      .from("npc_stats")
+      .select("level")
+      .limit(1);
+
+    if (error) {
+      console.error("ERROR DE BASE DE DATOS:", error.message);
+    } else {
+      console.log("BASE DE DATOS FUNCIONANDO:", data);
+    }
+  }
+
+  probarBaseDeDatos();
 </script>
 </body>
 </html>
