@@ -220,54 +220,85 @@ h2 {
 .inventory-grid {
   display: grid;
   grid-template-columns: repeat(9, minmax(0, 1fr));
-  gap: 6px;
+  gap: 4px;
+  max-width: 540px;
+}
+
+.inventory-grid.main-grid,
+.inventory-grid.hotbar-grid {
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+}
+
+.inventory-grid.armor-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  max-width: 240px;
+}
+
+.inventory-grid.offhand-grid {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 54px;
 }
 
 .inventory-slot {
+  position: relative;
   min-width: 0;
   aspect-ratio: 1;
-  background: #263327;
-  border: 1px solid #405440;
-  border-radius: 6px;
-  padding: 5px 2px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  position: relative;
   overflow: hidden;
+  background: #8b8b8b;
+  border: 2px solid;
+  border-color: #373737 #ffffff #ffffff #373737;
+  border-radius: 0;
+  box-shadow: inset 1px 1px 0 #555555, inset -1px -1px 0 #c6c6c6;
+  image-rendering: pixelated;
 }
 
 .inventory-slot.empty {
-  background: #172019;
-  border-color: #293a2c;
+  background: #8b8b8b;
+}
+
+.inventory-slot .slot-icon {
+  width: 78%;
+  height: 78%;
+  object-fit: contain;
+  image-rendering: pixelated;
+  filter: drop-shadow(1px 1px 0 rgba(0,0,0,.35));
 }
 
 .inventory-slot .slot-item {
-  color: #e0e9dc;
-  font-size: 10px;
-  line-height: 1.2;
-  overflow-wrap: anywhere;
-}
-
-.inventory-slot.empty .slot-item {
-  color: #627063;
+  display: none;
 }
 
 .inventory-slot .quantity {
   position: absolute;
-  bottom: 2px;
-  right: 4px;
-  color: white;
-  font-size: 10px;
-  font-weight: bold;
+  right: 2px;
+  bottom: 0;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: 900;
+  text-shadow: 2px 2px 0 #3f3f3f, -1px -1px 0 #3f3f3f;
+  z-index: 2;
 }
 
 .inventory-loading {
   color: #aebcae;
   text-align: center;
   padding: 15px;
+}
+
+@media(max-width: 750px) {
+  .inventory-grid {
+    gap: 3px;
+  }
+
+  .inventory-slot .quantity {
+    font-size: 10px;
+    line-height: 12px;
+  }
 }
 
 .message {
@@ -495,11 +526,37 @@ function crearInventario(inventory) {
   container.replaceChildren();
 
   const groups = [
-    { type: "main", title: "Inventario principal" },
-    { type: "hotbar", title: "Barra rápida" },
-    { type: "armor", title: "Armadura" },
-    { type: "offhand", title: "Mano secundaria" }
+    { type: "main", title: "Inventario principal", columns: "main-grid" },
+    { type: "hotbar", title: "Barra rápida", columns: "hotbar-grid" },
+    { type: "armor", title: "Armadura", columns: "armor-grid" },
+    { type: "offhand", title: "Mano secundaria", columns: "offhand-grid" }
   ];
+
+  function crearTextura(itemId, image) {
+    // Solo aceptamos identificadores de textura con formato seguro.
+    const normalized = String(itemId || "").toLowerCase();
+    const parts = normalized.split(":");
+    const namespace = parts.length === 2 ? parts[0] : "minecraft";
+    const path = parts.length === 2 ? parts[1] : parts[0];
+
+    if (
+      namespace !== "minecraft" ||
+      !/^[a-z0-9_./-]+$/.test(path) ||
+      path.includes("..")
+    ) {
+      return;
+    }
+
+    const base = "https://mcasset.cloud/1.20.1/assets/minecraft/textures/";
+    image.src = base + "item/" + path + ".png";
+
+    image.onerror = function () {
+      image.onerror = function () {
+        image.remove();
+      };
+      image.src = base + "block/" + path + ".png";
+    };
+  }
 
   for (const group of groups) {
     const items = inventory
@@ -515,7 +572,7 @@ function crearInventario(inventory) {
     heading.textContent = group.title;
 
     const grid = document.createElement("div");
-    grid.className = "inventory-grid";
+    grid.className = "inventory-grid " + group.columns;
 
     for (const item of items) {
       const slot = document.createElement("div");
@@ -523,28 +580,21 @@ function crearInventario(inventory) {
 
       slot.className = "inventory-slot" + (isEmpty ? " empty" : "");
 
-      const itemName = document.createElement("span");
-      itemName.className = "slot-item";
-
-      if (isEmpty) {
-        itemName.textContent = "Vacío";
-      } else {
-        const readableName = String(item.item_id)
-          .split(":")
-          .pop()
-          .replaceAll("_", " ");
-
-        itemName.textContent = readableName;
-        slot.title = String(item.item_id);
-      }
-
-      slot.appendChild(itemName);
-
       if (!isEmpty) {
-        const quantity = document.createElement("span");
-        quantity.className = "quantity";
-        quantity.textContent = item.quantity;
-        slot.appendChild(quantity);
+        const image = document.createElement("img");
+        image.className = "slot-icon";
+        image.alt = String(item.item_id);
+        crearTextura(item.item_id, image);
+        slot.appendChild(image);
+
+        slot.title = String(item.item_id);
+
+        if (Number(item.quantity) > 1) {
+          const quantity = document.createElement("span");
+          quantity.className = "quantity";
+          quantity.textContent = item.quantity;
+          slot.appendChild(quantity);
+        }
       }
 
       grid.appendChild(slot);
