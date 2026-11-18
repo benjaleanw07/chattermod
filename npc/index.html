@@ -369,6 +369,8 @@ async function cargarNPC() {
     }
 
     document.getElementById("npcName").textContent = npc.minecraft_username;
+    document.getElementById("ownerName").textContent =
+  "Propietario: @" + (npc.kick_username ?? "Desconocido");
     document.getElementById("minecraftName").textContent = npc.minecraft_username;
     document.getElementById("skinImage").src =
       "https://mc-heads.net/body/" + encodeURIComponent(npc.minecraft_username) + "/230";
