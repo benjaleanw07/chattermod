@@ -147,8 +147,20 @@ h2 {
   overflow-wrap: anywhere;
 }
 
-.item {
-  font-size: 27px;
+.equipment-icon {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  filter: drop-shadow(1px 1px 0 rgba(0,0,0,.35));
+}
+
+.equipment-loading {
+  color: #aebcae;
+  font-size: 13px;
+  text-align: center;
+  grid-column: 1 / -1;
+  padding: 12px;
 }
 
 .private {
@@ -382,13 +394,8 @@ footer {
       <div class="card">
         <h2>⚔️ Equipamiento público</h2>
 
-        <div class="equipment">
-          <div class="slot"><span class="item">🪖</span>Casco</div>
-          <div class="slot"><span class="item">🛡️</span>Pechera</div>
-          <div class="slot"><span class="item">👖</span>Pantalones</div>
-          <div class="slot"><span class="item">🥾</span>Botas</div>
-          <div class="slot"><span class="item">⚔️</span>Mano principal</div>
-          <div class="slot"><span class="item">🛡️</span>Mano secundaria</div>
+        <div class="equipment" id="equipmentContainer">
+          <p class="equipment-loading">Cargando equipamiento...</p>
         </div>
       </div>
 
@@ -514,12 +521,137 @@ const supabaseClient = window.supabase.createClient(
 
 const $ = (id) => document.getElementById(id);
 
+
+// ======================================
+// TEXTURAS DE MINECRAFT
+// ======================================
+
+function crearTextura(itemId, image) {
+  const normalized = String(itemId || "").toLowerCase();
+  const parts = normalized.split(":");
+  const namespace = parts.length === 2 ? parts[0] : "minecraft";
+  const path = parts.length === 2 ? parts[1] : parts[0];
+
+  if (
+    namespace !== "minecraft" ||
+    !/^[a-z0-9_./-]+$/.test(path) ||
+    path.includes("..")
+  ) {
+    image.remove();
+    return;
+  }
+
+  const textureUrl =
+    "https://project-crafting.github.io/minecraft-auto-updated-textures-api/items/" +
+    path +
+    ".png";
+
+  image.onerror = function () {
+    console.warn("No se encontró la textura para:", itemId);
+    image.remove();
+  };
+
+  image.src = textureUrl;
+}
+
+
+// ======================================
+// EQUIPAMIENTO PUBLICO
+// ======================================
+
+function crearEquipamiento(equipment) {
+  const container = $("equipmentContainer");
+  container.replaceChildren();
+
+  const slots = [
+    { id: "helmet", label: "Casco" },
+    { id: "chestplate", label: "Pechera" },
+    { id: "leggings", label: "Pantalones" },
+    { id: "boots", label: "Botas" },
+    { id: "mainhand", label: "Mano principal" },
+    { id: "offhand", label: "Mano secundaria" }
+  ];
+
+  for (const slotData of slots) {
+    const item = equipment.find(
+      entry => entry.equipment_slot === slotData.id
+    );
+
+    const slot = document.createElement("div");
+    slot.className = "slot";
+
+    const hasItem =
+      item &&
+      item.item_id &&
+      Number(item.quantity) > 0;
+
+    if (hasItem) {
+      const image = document.createElement("img");
+      image.className = "equipment-icon";
+      image.alt = item.item_id;
+
+      crearTextura(item.item_id, image);
+      slot.appendChild(image);
+
+      slot.title = item.item_id;
+
+      if (Number(item.quantity) > 1) {
+        const quantity = document.createElement("span");
+        quantity.textContent = item.quantity + "x";
+        slot.appendChild(quantity);
+      }
+    } else {
+      slot.classList.add("empty");
+    }
+
+    const label = document.createElement("span");
+    label.textContent = slotData.label;
+
+    slot.appendChild(label);
+    container.appendChild(slot);
+  }
+}
+
+
+async function cargarEquipamiento(username) {
+  const container = $("equipmentContainer");
+
+  try {
+    const { data, error } = await supabaseClient.rpc(
+      "get_public_npc_equipment",
+      {
+        p_minecraft_username: username
+      }
+    );
+
+    if (error) throw error;
+
+    crearEquipamiento(Array.isArray(data) ? data : []);
+
+  } catch (err) {
+    console.error("Error cargando equipamiento:", err);
+
+    container.innerHTML =
+      '<p class="equipment-loading">No se pudo cargar el equipamiento.</p>';
+  }
+}
+
+
+// ======================================
+// BLOQUEO DE INFORMACION PRIVADA
+// ======================================
+
 function mostrarBloqueo(mensaje) {
   $("privateLocked").hidden = false;
   $("privateContent").hidden = true;
   $("privateMessage").textContent = mensaje;
   $("loginArea").hidden = true;
 }
+
+
+// ======================================
+// INVENTARIO PRIVADO
+// ======================================
 
 function crearInventario(inventory) {
   const container = $("inventoryContainer");
@@ -531,36 +663,6 @@ function crearInventario(inventory) {
     { type: "armor", title: "Armadura", columns: "armor-grid" },
     { type: "offhand", title: "Mano secundaria", columns: "offhand-grid" }
   ];
-
-  function crearTextura(itemId, image) {
-    // Aceptamos únicamente identificadores vanilla seguros.
-    const normalized = String(itemId || "").toLowerCase();
-    const parts = normalized.split(":");
-    const namespace = parts.length === 2 ? parts[0] : "minecraft";
-    const path = parts.length === 2 ? parts[1] : parts[0];
-
-    if (
-      namespace !== "minecraft" ||
-      !/^[a-z0-9_./-]+$/.test(path) ||
-      path.includes("..")
-    ) {
-      image.remove();
-      return;
-    }
-
-    // Nueva fuente de texturas comprobada desde JavaScript.
-    const textureUrl =
-      "https://project-crafting.github.io/minecraft-auto-updated-textures-api/items/" +
-      path +
-      ".png";
-
-    image.onerror = function () {
-      console.warn("No se encontró la textura para:", itemId);
-      image.remove();
-    };
-
-    image.src = textureUrl;
-  }
 
   for (const group of groups) {
     const items = inventory
@@ -588,6 +690,7 @@ function crearInventario(inventory) {
         const image = document.createElement("img");
         image.className = "slot-icon";
         image.alt = String(item.item_id);
+
         crearTextura(item.item_id, image);
         slot.appendChild(image);
 
@@ -613,6 +716,11 @@ function crearInventario(inventory) {
     container.textContent = "No hay espacios de inventario registrados.";
   }
 }
+
+
+// ======================================
+// DATOS PRIVADOS DEL PROPIETARIO
+// ======================================
 
 async function cargarDatosPrivados(username) {
   $("privateLocked").hidden = true;
@@ -643,9 +751,6 @@ async function cargarDatosPrivados(username) {
     return;
   }
 
-  // La función devuelve únicamente el NPC del usuario autenticado.
-  // También comprobamos que sea el mismo perfil que está visitando.
-
   if (
     !data ||
     !data.minecraft_username ||
@@ -657,7 +762,8 @@ async function cargarDatosPrivados(username) {
     return;
   }
 
-  $("coinBalance").textContent = Number(data.coins ?? 0).toLocaleString("es-CL");
+  $("coinBalance").textContent =
+    Number(data.coins ?? 0).toLocaleString("es-CL");
 
   crearInventario(
     Array.isArray(data.inventory) ? data.inventory : []
@@ -666,6 +772,11 @@ async function cargarDatosPrivados(username) {
   $("privateLocked").hidden = true;
   $("privateContent").hidden = false;
 }
+
+
+// ======================================
+// CARGAR PERFIL DEL NPC
+// ======================================
 
 async function cargarNPC() {
   const params = new URLSearchParams(window.location.search);
@@ -727,9 +838,10 @@ async function cargarNPC() {
     loading.hidden = true;
     profile.hidden = false;
 
-    // Los datos privados se consultan después de cargar
-    // el perfil público y nunca se solicitan para otros usuarios.
+    // Equipamiento público: se carga para cualquier visitante.
+    await cargarEquipamiento(npc.minecraft_username);
 
+    // Los datos privados solo se consultan para el usuario autenticado.
     await cargarDatosPrivados(npc.minecraft_username);
 
   } catch (err) {
