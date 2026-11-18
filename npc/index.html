@@ -143,6 +143,8 @@ h2 {
   color: #aebcae;
   font-size: 12px;
   text-align: center;
+  padding: 8px;
+  overflow-wrap: anywhere;
 }
 
 .item {
@@ -151,35 +153,121 @@ h2 {
 
 .private {
   border: 1px dashed #60765a;
-  text-align: center;
 }
 
-.private p {
+.private-message {
+  text-align: center;
   color: #aebcae;
   line-height: 1.6;
-  margin-bottom: 18px;
 }
 
 .lock-icon {
   font-size: 42px;
   margin-bottom: 15px;
+  text-align: center;
 }
 
-.locked {
+.login-button {
+  display: inline-block;
   background: #a6df76;
   color: #101510;
+  text-decoration: none;
   border: none;
   padding: 12px 18px;
   border-radius: 8px;
   font-weight: bold;
-  opacity: .8;
-  cursor: not-allowed;
+  margin-top: 12px;
 }
 
 .private-note {
   color: #a6df76;
   font-size: 12px;
   margin-top: 15px;
+}
+
+.coin-box {
+  background: #263327;
+  border: 1px solid #405440;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.coin-box span {
+  color: #aebcae;
+  font-size: 14px;
+}
+
+.coin-box strong {
+  color: #a6df76;
+  font-size: 25px;
+}
+
+.inventory-section {
+  margin-top: 24px;
+}
+
+.inventory-section h3 {
+  color: #a6df76;
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+
+.inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.inventory-slot {
+  min-width: 0;
+  aspect-ratio: 1;
+  background: #263327;
+  border: 1px solid #405440;
+  border-radius: 6px;
+  padding: 5px 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.inventory-slot.empty {
+  background: #172019;
+  border-color: #293a2c;
+}
+
+.inventory-slot .slot-item {
+  color: #e0e9dc;
+  font-size: 10px;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.inventory-slot.empty .slot-item {
+  color: #627063;
+}
+
+.inventory-slot .quantity {
+  position: absolute;
+  bottom: 2px;
+  right: 4px;
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.inventory-loading {
+  color: #aebcae;
+  text-align: center;
+  padding: 15px;
 }
 
 .message {
@@ -203,9 +291,26 @@ footer {
   font-size: 13px;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 @media(max-width: 750px) {
   .profile {
     grid-template-columns: 1fr;
+  }
+
+  .inventory-grid {
+    grid-template-columns: repeat(9, minmax(0, 1fr));
+    gap: 4px;
+  }
+
+  .inventory-slot .slot-item {
+    font-size: 8px;
+  }
+
+  .inventory-slot .quantity {
+    font-size: 9px;
   }
 }
 </style>
@@ -238,7 +343,9 @@ footer {
              src=""
              alt="Skin 3D de Minecraft">
         <h1 id="npcName">NPC</h1>
-        <p class="owner" id="ownerName">Propietario: Información no disponible</p>
+        <p class="owner" id="ownerName">
+          Propietario: Información no disponible
+        </p>
       </div>
 
       <div class="card">
@@ -295,26 +402,55 @@ footer {
       <div class="card">
         <h2>👤 Información del NPC</h2>
         <p class="owner">Estado: NPC registrado</p>
-        <p class="owner">Minecraft: <span id="minecraftName"></span></p>
+        <p class="owner">
+          Minecraft: <span id="minecraftName"></span>
+        </p>
       </div>
 
-      <div class="card private">
-        <div class="lock-icon">🔒</div>
+      <!-- AREA PRIVADA -->
 
-        <h2>Área privada del propietario</h2>
+      <div class="card private" id="privateCard">
 
-        <p>
-          El inventario completo y el saldo de Chatter Coins
-          son información privada del propietario del NPC.
-        </p>
+        <div id="privateLocked" hidden>
+          <div class="lock-icon">🔒</div>
+          <h2>Área privada del propietario</h2>
 
-        <button class="locked" disabled>
-          Acceso privado próximamente
-        </button>
+          <div class="private-message" id="privateMessage">
+            Esta información solo está disponible para el propietario.
+          </div>
 
-        <div class="private-note">
-          Acceso mediante cuenta vinculada a Kick.
+          <div class="private-message" id="loginArea" hidden>
+            Debes iniciar sesión con Kick para comprobar si eres el propietario.
+            <br>
+            <a class="login-button" href="../index.html">
+              Iniciar sesión
+            </a>
+          </div>
         </div>
+
+        <div id="privateContent" hidden>
+
+          <h2>🔐 Área privada del propietario</h2>
+
+          <div class="coin-box">
+            <span>🪙 Tus Chatter Coins</span>
+            <strong id="coinBalance">0</strong>
+          </div>
+
+          <h2>🎒 Inventario del NPC</h2>
+
+          <div id="inventoryContainer">
+            <p class="inventory-loading">
+              Cargando inventario...
+            </p>
+          </div>
+
+          <p class="private-note">
+            Solo tú puedes ver esta información.
+          </p>
+
+        </div>
+
       </div>
 
     </section>
@@ -335,16 +471,155 @@ const SUPABASE_KEY = "sb_publishable_ixUtZdRvO_d0qi7x-hXcJg_98xyxNPd";
 
 const supabaseClient = window.supabase.createClient(
   SUPABASE_URL,
-  SUPABASE_KEY
+  SUPABASE_KEY,
+  {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: true
+    }
+  }
 );
+
+const $ = (id) => document.getElementById(id);
+
+function mostrarBloqueo(mensaje) {
+  $("privateLocked").hidden = false;
+  $("privateContent").hidden = true;
+  $("privateMessage").textContent = mensaje;
+  $("loginArea").hidden = true;
+}
+
+function crearInventario(inventory) {
+  const container = $("inventoryContainer");
+  container.replaceChildren();
+
+  const groups = [
+    { type: "main", title: "Inventario principal" },
+    { type: "hotbar", title: "Barra rápida" },
+    { type: "armor", title: "Armadura" },
+    { type: "offhand", title: "Mano secundaria" }
+  ];
+
+  for (const group of groups) {
+    const items = inventory
+      .filter(item => item.slot_type === group.type)
+      .sort((a, b) => a.slot_index - b.slot_index);
+
+    if (items.length === 0) continue;
+
+    const section = document.createElement("div");
+    section.className = "inventory-section";
+
+    const heading = document.createElement("h3");
+    heading.textContent = group.title;
+
+    const grid = document.createElement("div");
+    grid.className = "inventory-grid";
+
+    for (const item of items) {
+      const slot = document.createElement("div");
+      const isEmpty = !item.item_id || Number(item.quantity) <= 0;
+
+      slot.className = "inventory-slot" + (isEmpty ? " empty" : "");
+
+      const itemName = document.createElement("span");
+      itemName.className = "slot-item";
+
+      if (isEmpty) {
+        itemName.textContent = "Vacío";
+      } else {
+        const readableName = String(item.item_id)
+          .split(":")
+          .pop()
+          .replaceAll("_", " ");
+
+        itemName.textContent = readableName;
+        slot.title = String(item.item_id);
+      }
+
+      slot.appendChild(itemName);
+
+      if (!isEmpty) {
+        const quantity = document.createElement("span");
+        quantity.className = "quantity";
+        quantity.textContent = item.quantity;
+        slot.appendChild(quantity);
+      }
+
+      grid.appendChild(slot);
+    }
+
+    section.appendChild(heading);
+    section.appendChild(grid);
+    container.appendChild(section);
+  }
+
+  if (inventory.length === 0) {
+    container.textContent = "No hay espacios de inventario registrados.";
+  }
+}
+
+async function cargarDatosPrivados(username) {
+  $("privateLocked").hidden = true;
+  $("privateContent").hidden = true;
+
+  const { data: sessionData, error: sessionError } =
+    await supabaseClient.auth.getSession();
+
+  if (sessionError) {
+    console.error("Error comprobando sesión:", sessionError);
+    mostrarBloqueo("No se pudo comprobar tu sesión. Recarga la página.");
+    return;
+  }
+
+  if (!sessionData.session) {
+    mostrarBloqueo("Inicia sesión con Kick para comprobar si eres el propietario.");
+    $("loginArea").hidden = false;
+    return;
+  }
+
+  const { data, error } = await supabaseClient.rpc(
+    "get_my_npc_private_data"
+  );
+
+  if (error) {
+    console.error("Error consultando datos privados:", error);
+    mostrarBloqueo("No se pudieron cargar tus datos privados. Inténtalo más tarde.");
+    return;
+  }
+
+  // La función devuelve únicamente el NPC del usuario autenticado.
+  // También comprobamos que sea el mismo perfil que está visitando.
+
+  if (
+    !data ||
+    !data.minecraft_username ||
+    data.minecraft_username.toLowerCase() !== username.toLowerCase()
+  ) {
+    mostrarBloqueo(
+      "Esta área es privada y solo puede verla el propietario de este NPC."
+    );
+    return;
+  }
+
+  $("coinBalance").textContent = Number(data.coins ?? 0).toLocaleString("es-CL");
+
+  crearInventario(
+    Array.isArray(data.inventory) ? data.inventory : []
+  );
+
+  $("privateLocked").hidden = true;
+  $("privateContent").hidden = false;
+}
 
 async function cargarNPC() {
   const params = new URLSearchParams(window.location.search);
   const username = params.get("username");
 
-  const loading = document.getElementById("loading");
-  const errorBox = document.getElementById("error");
-  const profile = document.getElementById("profile");
+  const loading = $("loading");
+  const errorBox = $("error");
+  const profile = $("profile");
 
   if (!username || !/^[A-Za-z0-9_]{3,16}$/.test(username)) {
     loading.hidden = true;
@@ -368,30 +643,45 @@ async function cargarNPC() {
       return;
     }
 
-    document.getElementById("npcName").textContent = npc.minecraft_username;
-    document.getElementById("ownerName").textContent =
-  "Propietario: @" + (npc.kick_username ?? "Desconocido");
-    document.getElementById("minecraftName").textContent = npc.minecraft_username;
-    document.getElementById("skinImage").src =
-      "https://mc-heads.net/body/" + encodeURIComponent(npc.minecraft_username) + "/230";
+    $("npcName").textContent = npc.minecraft_username;
 
-    document.getElementById("level").textContent = npc.level ?? 1;
-    document.getElementById("kills").textContent = npc.kills ?? 0;
-    document.getElementById("hearts").textContent = npc.hearts ?? 10;
-    document.getElementById("experience").textContent =
+    $("ownerName").textContent =
+      "Propietario: @" + (npc.kick_username ?? "Desconocido");
+
+    $("minecraftName").textContent = npc.minecraft_username;
+
+    $("skinImage").src =
+      "https://mc-heads.net/body/" +
+      encodeURIComponent(npc.minecraft_username) +
+      "/230";
+
+    $("level").textContent = npc.level ?? 1;
+    $("kills").textContent = npc.kills ?? 0;
+    $("hearts").textContent = npc.hearts ?? 10;
+
+    $("experience").textContent =
       (npc.experience ?? 0) + " XP";
 
     const experience = Number(npc.experience ?? 0);
-    const progress = Math.max(0, Math.min(100, (experience / 1000) * 100));
+    const progress = Math.max(
+      0,
+      Math.min(100, (experience / 1000) * 100)
+    );
 
-    document.getElementById("progressBar").style.width = progress + "%";
+    $("progressBar").style.width = progress + "%";
 
     loading.hidden = true;
     profile.hidden = false;
 
+    // Los datos privados se consultan después de cargar
+    // el perfil público y nunca se solicitan para otros usuarios.
+
+    await cargarDatosPrivados(npc.minecraft_username);
+
   } catch (err) {
     console.error("Error cargando NPC:", err);
-    loading.textContent = "No se pudo cargar el perfil. Inténtalo más tarde.";
+    loading.textContent =
+      "No se pudo cargar el perfil. Inténtalo más tarde.";
   }
 }
 
