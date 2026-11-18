@@ -548,27 +548,18 @@ function crearInventario(inventory) {
       return;
     }
 
-    const base = "https://mcasset.cloud/1.20.1/assets/minecraft/textures/";
-    const candidates = [
-      base + "item/" + path + ".png",
-      base + "block/" + path + ".png"
-    ];
-
-    // Si la textura de objeto no existe, intenta la textura del bloque.
-    let candidateIndex = 0;
+    // Nueva fuente de texturas comprobada desde JavaScript.
+    const textureUrl =
+      "https://project-crafting.github.io/minecraft-auto-updated-textures-api/items/" +
+      path +
+      ".png";
 
     image.onerror = function () {
-      candidateIndex += 1;
-
-      if (candidateIndex < candidates.length) {
-        image.src = candidates[candidateIndex];
-      } else {
-        console.warn("No se encontró la textura para:", itemId);
-        image.remove();
-      }
+      console.warn("No se encontró la textura para:", itemId);
+      image.remove();
     };
 
-    image.src = candidates[candidateIndex];
+    image.src = textureUrl;
   }
 
   for (const group of groups) {
