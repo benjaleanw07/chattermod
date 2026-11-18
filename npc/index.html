@@ -533,7 +533,7 @@ function crearInventario(inventory) {
   ];
 
   function crearTextura(itemId, image) {
-    // Solo aceptamos identificadores de textura con formato seguro.
+    // Aceptamos únicamente identificadores vanilla seguros.
     const normalized = String(itemId || "").toLowerCase();
     const parts = normalized.split(":");
     const namespace = parts.length === 2 ? parts[0] : "minecraft";
@@ -544,18 +544,31 @@ function crearInventario(inventory) {
       !/^[a-z0-9_./-]+$/.test(path) ||
       path.includes("..")
     ) {
+      image.remove();
       return;
     }
 
     const base = "https://mcasset.cloud/1.20.1/assets/minecraft/textures/";
-    image.src = base + "item/" + path + ".png";
+    const candidates = [
+      base + "item/" + path + ".png",
+      base + "block/" + path + ".png"
+    ];
+
+    // Si la textura de objeto no existe, intenta la textura del bloque.
+    let candidateIndex = 0;
 
     image.onerror = function () {
-      image.onerror = function () {
+      candidateIndex += 1;
+
+      if (candidateIndex < candidates.length) {
+        image.src = candidates[candidateIndex];
+      } else {
+        console.warn("No se encontró la textura para:", itemId);
         image.remove();
-      };
-      image.src = base + "block/" + path + ".png";
+      }
     };
+
+    image.src = candidates[candidateIndex];
   }
 
   for (const group of groups) {
